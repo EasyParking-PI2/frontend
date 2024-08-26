@@ -6,13 +6,15 @@ import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { loginUser } from '../services/api';
+import { useNavigate } from 'react-router-dom';  // Adicionado para navegação
 
-
-function LoginForm({ onSubmit, onSwitch }) {
+function LoginForm({ onSwitch }) {
    const [formData, setFormData] = useState({
       login: '',
       password: '',
    });
+
+   const navigate = useNavigate();  // Hook de navegação
 
    const handleChange = (e) => {
       setFormData({
@@ -25,15 +27,22 @@ function LoginForm({ onSubmit, onSwitch }) {
       e.preventDefault();
       try {
          const data = await loginUser(formData);
-         console.log(data);
 
+         // Salva o token no localStorage
          localStorage.setItem('authToken', data.token);
          localStorage.setItem('user', JSON.stringify({
-            user: data.user
-         }))
+            login: formData.login,
+            ...data.user
+         }));
 
          alert('Login bem-sucedido!');
-         onSubmit();
+
+         // Redirecionar para a tela de admin ou usuário após o login
+         if (formData.login === 'admin') {
+            navigate('/admin');  // Redireciona para o painel do admin
+         } else {
+            navigate('/user');   // Redireciona para o painel do usuário
+         }
       } catch (error) {
          console.error('Erro ao fazer login:', error);
          alert('Erro ao fazer login');

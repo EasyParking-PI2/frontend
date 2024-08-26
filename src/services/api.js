@@ -80,13 +80,14 @@ export async function loginUser(credentials) {
    const response = await fetch(`${API_URL2}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(credentials)
-   })
+      body: JSON.stringify(credentials),
+   });
 
    if (!response.ok) {
-      throw new Error('Falha no login');
+      throw new Error('Falha ao fazer login');
    }
 
    const data = await response.json();
+   console.log('Dados retornados do backend:', data)
    return data;
 }

@@ -62,7 +62,7 @@ function CarForm() {
             sx={{ mt: 2 }}
          />
          <Button type="submit" variant="contained" sx={{ mt: 3 }}>
-            Cadastrar Carro
+            Cadastrar Veiculo
          </Button>
       </Box>
    );
