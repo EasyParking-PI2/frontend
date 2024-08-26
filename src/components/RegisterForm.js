@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import { createUser } from '../services/api';
 
 function RegisterForm({ onSubmit, onSwitch }) {
    const [formData, setFormData] = useState({
@@ -23,9 +24,16 @@ function RegisterForm({ onSubmit, onSwitch }) {
       });
    };
 
-   const handleSubmit = (e) => {
+   const handleSubmit = async (e) => {
       e.preventDefault();
-      onSubmit();
+      try {
+         await createUser(formData);
+         alert('Usuário registrado com sucesso!');
+         onSwitch();
+      } catch (error) {
+         console.error('Erro ao registrar usuário:', error);
+         alert('Erro ao registrar usuário');
+      }
    };
 
    return (
@@ -81,6 +89,7 @@ function RegisterForm({ onSubmit, onSwitch }) {
                      fullWidth
                      required
                      sx={{ mb: 2 }}
+
                   />
                   <TextField
                      name="phone"

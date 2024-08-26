@@ -5,10 +5,12 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import { loginUser } from '../services/api';
+
 
 function LoginForm({ onSubmit, onSwitch }) {
    const [formData, setFormData] = useState({
-      email: '',
+      login: '',
       password: '',
    });
 
@@ -19,9 +21,23 @@ function LoginForm({ onSubmit, onSwitch }) {
       });
    };
 
-   const handleSubmit = (e) => {
+   const handleSubmit = async (e) => {
       e.preventDefault();
-      onSubmit();
+      try {
+         const data = await loginUser(formData);
+         console.log(data);
+
+         localStorage.setItem('authToken', data.token);
+         localStorage.setItem('user', JSON.stringify({
+            user: data.user
+         }))
+
+         alert('Login bem-sucedido!');
+         onSubmit();
+      } catch (error) {
+         console.error('Erro ao fazer login:', error);
+         alert('Erro ao fazer login');
+      }
    };
 
    return (
@@ -33,9 +49,9 @@ function LoginForm({ onSubmit, onSwitch }) {
                      Login
                   </Typography>
                   <TextField
-                     name="email"
-                     label="Email"
-                     value={formData.email}
+                     name="login"
+                     label="Login"
+                     value={formData.login}
                      onChange={handleChange}
                      fullWidth
                      required

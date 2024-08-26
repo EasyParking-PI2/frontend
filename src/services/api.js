@@ -75,3 +75,18 @@ export async function createUser(userData) {
    }
    return response.json();
 }
+
+export async function loginUser(credentials) {
+   const response = await fetch(`${API_URL2}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(credentials)
+   })
+
+   if (!response.ok) {
+      throw new Error('Falha no login');
+   }
+
+   const data = await response.json();
+   return data;
+}

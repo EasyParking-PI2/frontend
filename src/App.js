@@ -12,7 +12,7 @@ function App() {
   };
 
   const handleRegister = () => {
-    setCurrentPage('vagas');
+    setCurrentPage('login'); // Redireciona para a tela de login após o registro
   };
 
   return (
