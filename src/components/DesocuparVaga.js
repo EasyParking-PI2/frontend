@@ -28,8 +28,26 @@ function DesocuparModal({ open, onClose, slot }) {
             }
          );
 
+         const dataHoraEntrada = new Date(response.data.dataHoraEntrada).getTime();
+         const dataHoraSaida = new Date(response.data.dataHoraSaida).getTime();
+
+         const dataHoraTotal = (dataHoraSaida - dataHoraEntrada) / 1000;
+
+         // Calcula horas, minutos e segundos
+         const horas = Math.floor(dataHoraTotal / 3600);
+         const minutos = Math.floor((dataHoraTotal % 3600) / 60);
+         const segundos = Math.floor(dataHoraTotal % 60);
+
+         // Formata para HH:MM:SS
+         const horasFormatadas = String(horas).padStart(2, '0');
+         const minutosFormatados = String(minutos).padStart(2, '0');
+         const segundosFormatados = String(segundos).padStart(2, '0');
+
+         const tempoTotalFormatado = `${horasFormatadas}:${minutosFormatados}:${segundosFormatados}`;
+         console.log(response.data);
+
          // Exibe as informações de tempo e custo
-         alert(`Tempo estacionado: ${response.data.tempoEstacionado}\nValor a pagar: R$ ${response.data.valor}`);
+         alert(`Tempo estacionado: ${tempoTotalFormatado} \n Valor a pagar: R$ ${response.data.valor}`);
 
          // Atualiza a vaga como desocupada e fecha o modal
          onClose();

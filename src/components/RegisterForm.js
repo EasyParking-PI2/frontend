@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { createUser } from '../services/api';
+import { Link } from '@mui/material';
 
 function RegisterForm({ onSubmit, onSwitch }) {
    const [formData, setFormData] = useState({
@@ -80,33 +81,60 @@ function RegisterForm({ onSubmit, onSwitch }) {
                      fullWidth
                      required
                      sx={{ mb: 2 }}
+                     type='email'
                   />
                   <TextField
                      name="cpf"
                      label="CPF"
                      value={formData.cpf}
-                     onChange={handleChange}
+                     onChange={(e) => {
+                        let cpf = e.target.value.replace(/\D/g, ''); // Remove tudo que não é dígito
+
+                        if (cpf.length > 3 && cpf.length <= 6) {
+                           cpf = cpf.replace(/(\d{3})(\d+)/, '$1.$2');
+                        } else if (cpf.length > 6 && cpf.length <= 9) {
+                           cpf = cpf.replace(/(\d{3})(\d{3})(\d+)/, '$1.$2.$3');
+                        } else if (cpf.length > 9) {
+                           cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+                        }
+
+                        setFormData({ ...formData, cpf });
+                     }}
                      fullWidth
                      required
                      sx={{ mb: 2 }}
+                     inputProps={{ "maxLength": 14 }}
 
                   />
                   <TextField
                      name="phone"
                      label="Telefone"
                      value={formData.phone}
-                     onChange={handleChange}
+                     onChange={(e) => {
+                        let phone = e.target.value.replace(/\D/g, ''); // Remove tudo que não é dígito
+
+                        if (phone.length > 0 && phone.length <= 2) {
+                           phone = phone.replace(/(\d{2})/, '($1) ');
+                        } else if (phone.length > 2 && phone.length <= 7) {
+                           phone = phone.replace(/(\d{2})(\d+)/, '($1) $2');
+                        } else if (phone.length > 7) {
+                           phone = phone.replace(/(\d{2})(\d{5})(\d+)/, '($1) $2-$3');
+                        }
+
+                        setFormData({ ...formData, phone });
+                     }}
                      fullWidth
                      required
                      sx={{ mb: 2 }}
+                     inputProps={{ "maxLength": 15 }}
                   />
                   <Button type="submit" variant="contained" fullWidth>
                      Registrar
                   </Button>
                </Box>
-               <Button onClick={onSwitch} fullWidth sx={{ mt: 2 }}>
+               <Link href="/login">
                   Já tem uma conta? Faça Login
-               </Button>
+               </Link>
             </CardContent>
          </Card>
       </Box>

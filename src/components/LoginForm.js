@@ -7,6 +7,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { loginUser } from '../services/api';
 import { useNavigate } from 'react-router-dom';  // Adicionado para navegação
+import { Link } from '@mui/material';
 
 function LoginForm({ onSwitch }) {
    const [formData, setFormData] = useState({
@@ -80,9 +81,9 @@ function LoginForm({ onSwitch }) {
                      Login
                   </Button>
                </Box>
-               <Button onClick={onSwitch} fullWidth sx={{ mt: 2 }}>
+               <Link href="/register">
                   Não tem uma conta? Registre-se
-               </Button>
+               </Link>
             </CardContent>
          </Card>
       </Box>

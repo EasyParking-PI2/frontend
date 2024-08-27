@@ -66,7 +66,8 @@ function UserPanel() {
    // };
 
    const handleSlotClick = (slot) => {
-      if (slot.ocupado) {
+      console.log(slot)
+      if (slot.status === 'ocupada') {
          handleOpenDesocuparModal(slot);
       } else {
          handleOpenModal(slot);
